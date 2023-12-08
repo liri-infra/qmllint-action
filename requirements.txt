@@ -1,5 +1,0 @@
-# SPDX-FileCopyrightText: 2020 Pier Luigi Fiorini <pierluigi.fiorini@liri.io>
-#
-# SPDX-License-Identifier: CC0-1.0
-
-PyGithub

@@ -4,10 +4,7 @@
 
 FROM alpine:latest
 
-RUN apk add python3 py3-pip qt5-qtdeclarative-dev python3-dev build-base
-
-ADD requirements.txt /tmp/requirements.txt
-RUN pip3 install -r /tmp/requirements.txt
+RUN apk add python3 py3-pip qt5-qtdeclarative-dev python3-dev build-base py3-pygithub
 
 ADD entrypoint /
 ENTRYPOINT ["/entrypoint"]
