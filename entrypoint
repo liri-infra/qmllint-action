@@ -35,10 +35,9 @@ def error(message, **kwargs):
 
 
 def find_qmllint():
-    for name in ('qmllint-qt5', 'qmllint'):
-        exe = shutil.which(name)
-        if exe is not None:
-            return exe
+    exe = shutil.which("/usr/lib/qt6/bin/qmllint")
+    if exe is not None:
+        return exe
     return None
 
 
@@ -52,12 +51,12 @@ def find_files(directory, pattern):
                 yield filename
 
 
-def lint(filename):
-    qmllint = find_qmllint()
-    if qmllint is None:
+def lint(filename, qmllint_bin):
+
+    if qmllint_bin is None:
         raise SystemExit('Cannot find qmllint executable')
 
-    result = subprocess.run([qmllint, filename], capture_output=True)
+    result = subprocess.run([qmllint_bin, filename], capture_output=True)
     if result.returncode != 0:
         errmsg = result.stderr.decode().strip()
         match = re.match('.+:(\d+) : (.+)', errmsg)
@@ -91,9 +90,12 @@ if __name__ == '__main__':
     if ci is False:
         update_status('pending', 'About to verify QML files')
 
+    qmllint_bin = find_qmllint()
+
     for suffix in ('qml', 'js'):
         for filename in Path('.').glob('**/*.' + suffix):
-            if lint(filename) is False:
+
+            if lint(filename, qmllint_bin) is False:
                 failed = True
 
     if failed is True:
