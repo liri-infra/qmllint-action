@@ -59,7 +59,7 @@ def lint(filename, qmllint_bin):
     result = subprocess.run([qmllint_bin, filename], capture_output=True)
     if result.returncode != 0:
         errmsg = result.stderr.decode().strip()
-        match = re.match('.+:(\d+) : (.+)', errmsg)
+        match = re.match(r'.+:(\d+) : (.+)', errmsg)
         if match:
             col, msg = match.groups()
             error(msg, filename=filename, col=col)
